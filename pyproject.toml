@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "superlean-profiler"
+version = "0.1.0"
+description = "Profile coding-agent trajectories: which MCP servers and skills eat your tokens"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE"]
+keywords = ["mcp", "skills", "claude-code", "tokens", "profiler", "agent"]
+dependencies = ["trajectoriz>=0.54"]
+
+[project.urls]
+Homepage = "https://github.com/superleanai/superlean-profiler"
+Issues = "https://github.com/superleanai/superlean-profiler/issues"
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "mypy", "ruff"]
+
+[project.scripts]
+slprof = "superlean_profiler.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["superlean_profiler"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+# recent ruff formats Python blocks inside Markdown; the plan's snippets are
+# illustrative pseudo-code, not sources
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+
+# trajectoriz ships no py.typed marker yet
+[[tool.mypy.overrides]]
+module = "trajectoriz"
+ignore_missing_imports = true
